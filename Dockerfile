@@ -11,4 +11,9 @@ LABEL io.k8s.description="ZNC in OpenShift" \
 # If we need to add files as part of every ZNC conf, they could go here
 # COPY ./modules/ /znc-data/modules
 
-USER znc
+RUN rm /startup-sequence/20-chown.sh
+
+RUN chgrp -R 0 /opt/znc \
+        && chmod -R g+rwX /opt/znc
+
+USER 100
