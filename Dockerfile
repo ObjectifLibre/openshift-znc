@@ -11,21 +11,4 @@ LABEL io.k8s.description="ZNC in OpenShift" \
 # If we need to add files as part of every ZNC conf, they could go here
 # COPY ./modules/ /znc-data/modules
 
-# We could override the entry point to do what we want
-#COPY entrypoint.sh /
-
-# But let's just smoke the chown stuff - we don't need do do that in a script
-RUN rm -rf /startup-sequence/50-chown.sh
-
-# overwrite the launch script with our own
-COPY 99-launch.sh /startup-sequence/
-
-# copy in a default data file
-COPY znc.conf /startup-sequence/configs/
-
-# Give the ZNC directory to root group (not root user)
-# https://docs.openshift.org/latest/creating_images/guidelines.html#openshift-origin-specific-guidelines
-RUN chgrp -R 0 /opt/znc \
-  && chmod -R g+rwX /opt/znc
-
-USER 1001
+USER znc
