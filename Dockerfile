@@ -2,6 +2,7 @@ FROM znc
 
 USER root
 EXPOSE 6697
+EXPOSE 8080
 
 LABEL io.k8s.description="ZNC in OpenShift" \
       io.k8s.display-name="ZNC" \
